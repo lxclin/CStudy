@@ -1,3 +1,0 @@
-"D:\clion\CLion 2017.3.4\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\CStudy.dir/objects.a
-D:\315\Dev-Cpp\MinGW64\bin\ar.exe cr CMakeFiles\CStudy.dir/objects.a @CMakeFiles\CStudy.dir\objects1.rsp
-D:\315\Dev-Cpp\MinGW64\bin\gcc.exe -g   -Wl,--whole-archive CMakeFiles\CStudy.dir/objects.a -Wl,--no-whole-archive  -o CStudy.exe -Wl,--out-implib,libCStudy.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\CStudy.dir\linklibs.rsp
