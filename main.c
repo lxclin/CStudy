@@ -1,3 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <stdbool.h>
+
+#define MAX_COUNT_OF_STUDENTS 30
+#define MAX_LENGTH_OF_STUDENT_NAME 20
+#define MAX_LENGTH_OF_STUDENT_ID 13
+#define MAX_LENGTH_OF_MAIL 20
+#define MAX_LENGTH_OF_PHONE 11
+#define MAX_LENGTH_OF_SEX 4
+
+
+/*
+ * 定义一种枚举类型叫做status
+ * 表示状态，状态包括：正确 和 错误
+ * 对应就是 OK or ERROR
+ */
+typedef enum {
+    OK,
+    ERROR
+}Status;
+
+/*
+ * 定义一种结构体叫做student表示
+ * 表示学生的数据结构，状态包括：
+ *  id      学生的编号，类型为int
+ *  student_id   学号，类型为数组
+ *  name    学生的姓名，类型为数组
+ *  sex     学生的性别，类型为数组
+ *  mail    学生的邮箱，类型为数组
+ *  phone   学生的电话，类型为数组
+ */
+
 typedef struct {
     int id;
     char name[MAX_LENGTH_OF_STUDENT_NAME];
@@ -78,7 +112,9 @@ Student studentInArrayWithId(Student students[], int count, int id) {
     }
     return targetStudent;
 }
-Student studentInArrayWithid(Student students[], int count, int id,char student_id[]) {
+
+//这里我删除了一个形参：int id，因为这个是用于查询学生id的，这里是查询学生学号，所以用不到
+Student studentInArrayWithStudentId(Student students[], int count,char student_id[]) {
     Student targetStudent1 = {};
     //我模仿了你写的id的查询来查询学生号
     for (int i = 0; i < count; i++) {
@@ -92,23 +128,27 @@ Student studentInArrayWithid(Student students[], int count, int id,char student_
     }
     return targetStudent1;
 }
-Student Input()//下图case4的结构体
-{
-    Student stu;
-    printf("\t\t新学生信息\n");
-    printf("\t\tid：");
-    scanf("%d", &stu.id);
-    printf("\t\t姓名：");
-    getchar();
-    //gets(stu.name);
-    printf("\t\t输入学生学号 性别 邮箱 电话  ");
-    scanf("%d %c %c %c", &stu.student_id[13], &stu.sex[4], &stu.mail[20], &stu.phone[11]);
-    return stu;
-}
+
+//这段代码有问题。你再试试。
+//Student Input()//下图case4的结构体
+//{
+//    Student stu;
+//    printf("\t\t新学生信息\n");
+//    printf("\t\tid：");
+//    scanf("%d", &stu.id);
+//    printf("\t\t姓名：");
+//    getchar();
+//    //gets(stu.name);
+//    printf("\t\t输入学生学号 性别 邮箱 电话  ");
+//    scanf("%d %c %c %c", &stu.student_id[13], &stu.sex[4], &stu.mail[20], &stu.phone[11]);
+//    return stu;
+//}
 
 int main() {
     //定义文件路径变量，用指针指向这个变量。
-    const char*filePath = "D:\\CStudy\\resource\\class_student_info.txt";
+
+    const char *filePath = "D:\\CStudy\\resource\\class_student_info.txt";
+//    const char *filePath = "../resource/class_student_info.txt";
     printf("文件路径为：%s\n", filePath);
 
     //定义一个长度为30的数组，数组中每个变量都是Student类型。
@@ -140,7 +180,6 @@ int main() {
     int countOfStudent = i;
     //定义操作码
     int operationCode = 0;
-    Student S[30];
     int cnt = 0;
     int m, n, id;
     printf("/**********************************/\n");
@@ -154,56 +193,61 @@ int main() {
     printf("5、删除学生信息\n");
     scanf("%d", &operationCode);
     switch (operationCode) {
-        case 1:
+        case 1:{
             printAllStudent(students, countOfStudent);
+        }
             break;
         case 2: {
-            printf("请输入学生编号\n");
+            printf("请输入学生编号:\n");
             int targetId;
             scanf("%d", &targetId);
             Student student = studentInArrayWithId(students, countOfStudent, targetId);
             printOneStudent(student);
-            break;
         }
+            break;
         case 3: {
-            printf("请输入学生学号\n");
-            char targetStudentid[] = { 0 };
-            scanf("%c", &targetStudentid);
-            Student student = studentInArrayWithid(students, countOfStudent,targetStudentid[30]);
+            printf("请输入学生学号:\n");
+            char targetStudentid[MAX_LENGTH_OF_STUDENT_ID];
+            scanf("%s",targetStudentid);
+//            scanf("%c", &targetStudentid);
+            printf("%s\n",targetStudentid);
+            //下面这个函数调用，你只输入了三个参数，实际要四个，因为你上文定义函数时有四个形参/
+            Student student = studentInArrayWithStudentId(students, countOfStudent,targetStudentid[30]);
             printOneStudent(student);
-            break;
         }
+            break;
         case 4: {
-            S(cnt++) = Input();
+            //先把case 3做了
+//            S(cnt++) = Input();
+        }
             break;
-        }
         case 5: {
-            printf("请输入要删除的学员id：");
-            scanf("%d", &id);
-            for (m = 0; m < cnt; m++) {
-                if (S[m].id == id)
-                    break;
-                if (m >= cnt)
-                {
-                    printf("学号不存在，删除失败！\n");
-                }
-                else {
-                    for (n = m + 1; n < cnt; n++)
-                    {
-                        strcpy(S[n - 1].name, S[n].name);
-                        S[n - 1].id = S[n].id;
-                        S[n - 1].student_id = S[n].student_id;
-                        S[n - 1].sex = S[n].sex;
-                        S[n - 1].phone = S[n].phone;
-                        S[n - 1].mail = S[n].mail;
-                    }
-                    cnt--;
-                    printf("删除成功！\n");
-                }
-
-                break;
-            }
+            //先把case 3做了
+//            printf("请输入要删除的学员id：");
+//            scanf("%d", &id);
+//            for (m = 0; m < cnt; m++) {
+//                if (S[m].id == id)
+//                    break;
+//                if (m >= cnt)
+//                {
+//                    printf("学号不存在，删除失败！\n");
+//                }
+//                else {
+//                    for (n = m + 1; n < cnt; n++)
+//                    {
+//                        strcpy(S[n - 1].name, S[n].name);
+//                        S[n - 1].id = S[n].id;
+//                        S[n - 1].student_id = S[n].student_id;
+//                        S[n - 1].sex = S[n].sex;
+//                        S[n - 1].phone = S[n].phone;
+//                        S[n - 1].mail = S[n].mail;
+//                    }
+//                    cnt--;
+//                    printf("删除成功！\n");
+//                }
+//            }
         }
+            break;
         default:
             printf("输入的操作码不正确");
             break;
